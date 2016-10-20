@@ -24,8 +24,7 @@ type alias Model =
 
 
 getJson : Cmd Msg
-getJson = Task.perform HttpError HttpSuccess (getString "https://mtgjson.com/json/EMA.json")
--- getJson = Task.perform HttpError HttpSuccess (getString "http://localhost:8083/KLD.json")
+getJson = Task.perform HttpError HttpSuccess (getString "https://mtgjson.com/json/KLD.json")
 
 init : (Model, Cmd Msg)
 init =
@@ -74,7 +73,7 @@ view model =
   div []
     [ div [] (List.map viewMessage model.messages)
     , input [onInput Input] []
-    , button [onClick Send] [text "xxxxxx"]
+    , button [onClick Send] [text "Send"]
     ]
 
 

@@ -8,6 +8,7 @@ open Suave.Files
 open Suave.RequestErrors
 open Suave.Logging
 open Suave.Utils
+open Suave.Writers
 
 open System
 open System.Net
@@ -31,18 +32,17 @@ let echo (webSocket : WebSocket) =
         loop := false
       | _ -> ()
   }
-
-// setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
-//   >>= setHeader "Pragma" "no-cache"
-//   >>= setHeader "Expires" "0"
-
+let noCache =
+  setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
+  >=> setHeader "Pragma" "no-cache"
+  >=> setHeader "Expires" "0"
 let app : WebPart =
   choose [
     path "/websocket" >=> handShake echo
     GET >=> choose
-      [ path "/" >=> file "main.html"
+      [ path "/" >=> noCache >=> file "main.html"
       ; path "/KLD.json" >=> file "KLD.json"
-      ; browseHome
+      ; noCache >=> browseHome
       ]
     NOT_FOUND "Found no handlers."
     ]
