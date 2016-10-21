@@ -4,7 +4,7 @@ import Html.Events exposing (..)
 import Http exposing (..)
 import Task exposing (..)
 import WebSocket
-import MagicSet exposing (..)
+import MagicSet
 import MagicCard exposing (..)
 
 main =
@@ -80,4 +80,5 @@ view model =
 
 viewMessage : String -> Html msg
 viewMessage msg =
-  div [] [ text msg ]
+  -- div [] [ text msg ]
+  MagicSet. msg

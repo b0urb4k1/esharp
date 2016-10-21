@@ -1,4 +1,4 @@
-module MagicSet exposing (..)
+module MagicSet exposing (decodeSet, Set)
 
 import Json.Encode
 import Json.Decode exposing ((:=))
