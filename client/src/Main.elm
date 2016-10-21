@@ -4,7 +4,8 @@ import Html.Events exposing (..)
 import Http exposing (..)
 import Task exposing (..)
 import WebSocket
-
+import MagicSet exposing (..)
+import MagicCard exposing (..)
 
 main =
   App.program

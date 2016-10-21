@@ -36,13 +36,13 @@ let noCache =
   setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
   >=> setHeader "Pragma" "no-cache"
   >=> setHeader "Expires" "0"
+
 let app : WebPart =
   choose [
     path "/websocket" >=> handShake echo
     GET >=> choose
       [ path "/" >=> noCache >=> file "main.html"
-      ; path "/KLD.json" >=> file "KLD.json"
-      ; noCache >=> browseHome
+      ; browseHome
       ]
     NOT_FOUND "Found no handlers."
     ]
