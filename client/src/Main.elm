@@ -1,11 +1,13 @@
 import Html exposing (..)
 import Html.App as App
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http exposing (..)
 import Task exposing (..)
 import WebSocket
-import MagicSet
-import MagicCard exposing (..)
+import Magic exposing (Set, decodeSet, Card)
+import Json.Decode as Decode
+import String
 
 main =
   App.program
@@ -25,7 +27,7 @@ type alias Model =
 
 
 getJson : Cmd Msg
-getJson = Task.perform HttpError HttpSuccess (getString "https://mtgjson.com/json/KLD.json")
+getJson = Task.perform HttpError HttpSuccess (getString "https://mtgjson.com/json/DDR.json")
 
 init : (Model, Cmd Msg)
 init =
@@ -77,8 +79,14 @@ view model =
     , button [onClick Send] [text "Send"]
     ]
 
+images cards =
+  let cardLocations = List.map (\c -> Magic.imageLocation c.multiverseid) cards
+  in List.map (\l -> img [ src l ] []) cardLocations
 
 viewMessage : String -> Html msg
 viewMessage msg =
-  -- div [] [ text msg ]
-  MagicSet. msg
+  let setResult = Decode.decodeString Magic.decodeSet msg
+  in case setResult of
+      Ok set -> div [] ([ text set.name ] ++ (images set.cards))
+
+      Err str -> div [] [text str ]
